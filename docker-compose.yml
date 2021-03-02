@@ -1,0 +1,25 @@
+version: '3'
+
+volumes:
+  general_test_postgres_data: {}
+  general_test_postgres_data_backups: {}
+
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - './.envs/local/pgadmin/.env'
+    ports:
+      - '5433:80'
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    env_file:
+      - './.envs/local/postgres/.env'
+    volumes:
+      - general_test_postgres_data:/var/lib/postgresql/data
+      - general_test_postgres_data_backups:/backups
+    ports:
+      - '5432:5432'
